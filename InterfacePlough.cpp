@@ -158,7 +158,7 @@ void InterfacePlough::updateScreen(boolean _rewrite){
 
 
   // Regel 2
-  temp2 = implement->getXte();
+  temp2 = gps->getXteCm();
   temp = abs(temp2);
 
   if (temp > 99){
@@ -199,44 +199,44 @@ void InterfacePlough::updateScreen(boolean _rewrite){
   }
 
   // Regel  3
-  temp2 = implement->getXte();
+  temp2 = implement->getRotation();
   temp = abs(temp2);
 
   if (temp > 99){
     if (temp2 < 0){
-      lcd->write_buffer('-', 3, 5);
+      lcd->write_buffer('-', 3, 9);
     }
     else {
-      lcd->write_buffer(' ', 3, 5);
+      lcd->write_buffer(' ', 3, 9);
     }
-    lcd->write_buffer(temp / 100 + '0', 3, 6);
+    lcd->write_buffer(temp / 100 + '0', 3, 10);
     temp = temp % 100;
-    lcd->write_buffer(temp / 10 + '0', 3, 7);
+    lcd->write_buffer(temp / 10 + '0', 3, 11);
     temp = temp % 10;
-    lcd->write_buffer(temp + '0', 3, 8);
+    lcd->write_buffer(temp + '0', 3, 12);
   }
   else if (temp > 9){
-    lcd->write_buffer(' ', 3, 5);
+    lcd->write_buffer(' ', 3, 9);
     if (temp2 < 0){
-      lcd->write_buffer('-', 3, 6);
+      lcd->write_buffer('-', 3, 10);
     }
     else {
-      lcd->write_buffer(' ', 3, 6);
+      lcd->write_buffer(' ', 3, 10);
     }
-    lcd->write_buffer(temp / 10 + '0', 3, 7);
+    lcd->write_buffer(temp / 10 + '0', 3, 11);
     temp = temp % 10;
-    lcd->write_buffer(temp + '0', 3, 8);
+    lcd->write_buffer(temp + '0', 3, 12);
   }
   else {
-    lcd->write_buffer(' ', 3, 5);
-    lcd->write_buffer(' ', 3, 6);
+    lcd->write_buffer(' ', 3, 9);
+    lcd->write_buffer(' ', 3, 10);
     if (temp2 < 0){
-      lcd->write_buffer('-', 3, 7);
+      lcd->write_buffer('-', 3, 11);
     }
     else {
-      lcd->write_buffer(' ', 3, 7);
+      lcd->write_buffer(' ', 3, 11);
     }
-    lcd->write_buffer(temp + '0', 3, 8);
+    lcd->write_buffer(temp + '0', 3, 12);
   }
     
   switch (mode){
@@ -279,7 +279,7 @@ void InterfacePlough::updateScreen(boolean _rewrite){
 // ---------------------------
 // Method for checking buttons
 // ---------------------------
-int Interface::checkButtons(int _delay1, int _delay2){
+int InterfacePlough::checkButtons(int _delay1, int _delay2){
   if (button1_flag){
     button1_timer = millis();
     button1_flag = false;
@@ -335,7 +335,7 @@ int Interface::checkButtons(int _delay1, int _delay2){
 // --------------------------------
 // Method for calibrating implement
 // --------------------------------
-void Interface::calibrate(){
+void InterfacePlough::calibrate(){
   // Temporary variables
   int _temp, _temp2, _temp3;
   int _buttons;
@@ -531,7 +531,7 @@ void Interface::calibrate(){
       lcd->write_buffer(L_CAL_SHARES, 0);
       lcd->write_buffer(L_CAL_ADJUST, 1);
       lcd->write_buffer(L_CAL_ENTER, 2);
-      lcd->write_buffer(L_CAL_KI_AD, 3);
+      lcd->write_buffer(L_CAL_SHARES_AD, 3);
 
       _temp = implement->getShares();
       _temp2 = _temp / 10;
@@ -938,7 +938,7 @@ void Interface::calibrate(){
       lcd->write_buffer(L_CAL_ENTER, 2);
       lcd->write_buffer(L_CAL_MAXCOR_AD, 3);
 
-      _temp = implement->getKD();
+      _temp = implement->getMaxCorrection();
       _temp2 = _temp / 10;
       _temp3 = _temp / 100;
 
@@ -986,7 +986,86 @@ void Interface::calibrate(){
 
       lcd->write_screen(-1);
 
-      implement->setMaxcor(_temp);
+      implement->setMaxCorrection(_temp);
+      break;
+    }
+  }
+  delay(1000);
+  
+  // Adjust ploughside
+  lcd->write_buffer(L_CAL_SWAP, 0);
+  lcd->write_buffer(L_CAL_ACCEPT, 1);
+  lcd->write_buffer(L_CAL_DECLINE, 2);
+  lcd->write_buffer(L_BLANK, 3);
+
+  lcd->write_screen(-1);
+
+  while(checkButtons(0, 0) != 0){
+  }
+
+  while(true){
+    if(checkButtons(0, 0) == -1){
+      // print message to LCD
+      lcd->write_buffer(L_CAL_SWAP, 0);
+      lcd->write_buffer(L_CAL_DECLINED, 1);
+      lcd->write_buffer(L_BLANK, 2);
+      lcd->write_buffer(L_BLANK, 3);
+
+      lcd->write_screen(-1);
+      break;
+    }
+    else if(checkButtons(0, 0) == 1){
+      // Adjust maximum correction
+      lcd->write_buffer(L_CAL_SWAP, 0);
+      lcd->write_buffer(L_CAL_ADJUST, 1);
+      lcd->write_buffer(L_CAL_ENTER, 2);
+      lcd->write_buffer(L_CAL_SWAP_AD, 3);
+
+      if (implement->getSide()){
+        lcd->write_buffer('L', 3, 16);
+      }
+      else {
+        lcd->write_buffer('R', 3, 16);
+      }
+
+      while(checkButtons(0, 0) != 0){
+      }
+
+      while(true){
+        lcd->write_screen(1);
+        checkButtons(0, 500);
+        
+        if (buttons == 1){
+          implement->setSwap(true);
+        }
+        else if (buttons == -1){
+          implement->setSwap(false);
+        }
+        else if (buttons == 2){
+          break;
+        }
+        
+        if (implement->getSide()){
+          lcd->write_buffer('L', 3, 16);
+        }
+        else {
+          lcd->write_buffer('R', 3, 16);
+        }
+      }
+      lcd->write_buffer(L_CAL_MAXCOR, 0);
+      lcd->write_buffer(L_CAL_DONE, 1);
+      lcd->write_buffer(L_BLANK, 2);
+      lcd->write_buffer(L_CAL_MAXCOR_AD, 3);
+
+      if (implement->getSide()){
+        lcd->write_buffer('L', 3, 16);
+      }
+      else {
+        lcd->write_buffer('R', 3, 16);
+      }
+
+      lcd->write_screen(-1);
+
       break;
     }
   }
@@ -1038,42 +1117,41 @@ void Interface::calibrate(){
 // ------------------------
 // Method for updating mode
 // ------------------------
-modes Interface::update(){
+modes InterfacePlough::update(){
   // Check buttons
   checkButtons(500, 0);
+  
+  // update GPS and tractor
+  gps->update();
+  tractor->update();
   
   // Check for mode change
   if(buttons == 2){
     mode = CALIBRATE;
   }
   else if(!digitalRead(MODE_PIN) ||
-          //tractor->getHitch() ||
-          implement->getPlantingelement()){
+          tractor->getHitch()){
     // set mode to manual
     mode = MANUAL;
-    // reset D action during manual mode
-#ifdef GPS
-    // With GPS
-    gps->update();
+    
+    // update implement
     implement->update(0, true, gps->getXteCm());
-#else
-    // No GPS
-    implement->update(0, true);
-#endif 
   }
   else {
-    // set mode to automatic
-    mode = AUTO;
-    // no reset D action during automatic mode 
-#ifdef GPS
-    // With GPS
-    gps->update();
-    implement->update(buttons, false, gps->getXteCm());
-#else
-    // No GPS
-    implement->update(buttons, false);
-#endif
-    tractor->update();
+    if (millis() - gps->getGgaFixAge() > 2000 ||
+        millis() - gps->getVtgFixAge() > 2000 ||
+        millis() - gps->getXteFixAge() > 2000 ||
+        gps->getQuality()){
+      // set mode to hold
+      mode = HOLD;
+    }
+    else {
+      // set mode to automatic
+      mode = AUTO;
+
+      // update implement
+      implement->update(buttons, false, gps->getXteCm());
+    }
   }
   return mode;
 }

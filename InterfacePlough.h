@@ -55,7 +55,7 @@ private:
 
   // Objects
   LiquidCrystal_I2C * lcd;
-  ImplementPlanter * implement;
+  ImplementPlough * implement;
   VehicleTractor * tractor;
   VehicleGps * gps;
 public:
