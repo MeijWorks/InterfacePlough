@@ -1,6 +1,6 @@
 /*
   Interface - a library for the MeijWorks interface
- Copyright (C) 2011-2014 J.A. Woltjer.
+ Copyright (C) 2011-2015 J.A. Woltjer.
  All rights reserved.
  
  This program is free software: you can redistribute it and/or modify
@@ -20,22 +20,15 @@
 #ifndef InterfacePlough_h
 #define InterfacePlough_h
 
-#include <LiquidCrystal_I2C.h>
-#include <ImplementPlough.h>
-#include <VehicleTractor.h>
-#include <VehicleGps.h>
-#include <ConfigInterface.h>
-#include <language.h>
+#include "LiquidCrystal_I2C.h"
+#include "ImplementPlough.h"
+#include "VehicleTractor.h"
+#include "VehicleGps.h"
+#include "ConfigInterfacePlough.h"
+#include "Language.h"
 
 // Software version of this library
-#define INTERFACE_VERSION 0.1
-
-//#define GPS
-
-// State variable
-enum modes{
-  AUTO, HOLD, ZEROISE, MANUAL, CALIBRATE
-};
+#define INTERFACE_VERSION 0.2
 
 class InterfacePlough {
 private:
@@ -44,12 +37,12 @@ private:
   //-------------
   
   // Mode
-  modes mode;
+  byte mode; // AUTO, SIM, MANUAL, CALIBRATE
   
   // Button flag and timer
   int buttons;
-  boolean button1_flag;
-  boolean button2_flag;
+  bool button1_flag;
+  bool button2_flag;
   unsigned long button1_timer;
   unsigned long button2_timer;
 
@@ -60,7 +53,7 @@ private:
   VehicleGps * gps;
 public:
   // ----------------------------------------------------
-  // public member functions implemented in Interface.cpp
+  // public member functions implemented in InterfacePlough.cpp
   // ----------------------------------------------------
 
   // Constructor
@@ -69,10 +62,10 @@ public:
             VehicleTractor * _tractor,
             VehicleGps * _gps);
             
+  void update();
   void updateScreen(boolean _rewrite);
-  int checkButtons(int _delay1, int _delay2);
+  int checkButtons(byte _delay1, byte _delay2);
   void calibrate(); 
-  modes update();
   
   inline int getButtons(){
     return buttons;

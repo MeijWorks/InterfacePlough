@@ -1,6 +1,6 @@
 /*
-  Config file for interface
-Copyright (C) 2011-2014 J.A. Woltjer.
+  Config file for plough interface
+Copyright (C) 2011-2015 J.A. Woltjer.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -16,16 +16,15 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ConfigInterface_h
-#define ConfigInterface_h
+#ifndef ConfigInterfacePlough_h
+#define ConfigInterfacePlough_h
 
-// Define language
-#define ENGLISH//NEDERLANDS //ENGLISH //DANSK
-
-//#define GPS
-
+#define GPS
+#define ROTATION
+//#define VOORSERIE
 //#define DEBUG
 
+#ifndef VOORSERIE
 // Defines for io ports
 // Digital debounced inputs
 #define MODE_PIN          4
@@ -35,4 +34,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define xxx             8
 //#define xxx             13
 
+#else
+// Legacy defines
+// Voorserie (UNO of Leonardo)
+#define MODE_PIN          6
+#define LEFT_BUTTON       5
+#define RIGHT_BUTTON      4
+
+#endif
 #endif

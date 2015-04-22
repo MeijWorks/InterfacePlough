@@ -1,6 +1,6 @@
 /*
   Config file for ploegbesturing
-Copyright (C) 2011-2013 J.A. Woltjer.
+Copyright (C) 2011-2015 J.A. Woltjer.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -16,13 +16,14 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+
 // ---------------
 // Serial messages
 // ---------------
 #define S_MEIJWORKS     "MeijWorks"
-#define S_DEVICE        "Plantercontrol v 1.00"
-#define S_LIBRARY       "FarmGPS library v "
-#define S_COPYRIGHT     "(c) 2011 - 2014 by J.A. Woltjer"
+#define S_DEVICE        "Ploughcontrol v 1.03"
+#define S_COPYRIGHT     "(c) 2011 - 2015 by J.A. Woltjer"
 #define S_TIMES         "Times started: "
 #define S_DIVIDE        "-------------------------------"
 
@@ -36,8 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define L_BLANK         "                    "
 
 #define L_MEIJWORKS     "     MeijWorks      "
-#define L_DEVICE        " Plantercontrol 1.00"
-#define L_COPYRIGHT     "      (c) 2014      "
+#define L_DEVICE        " Ploughcontrol v1.03"
+#define L_COPYRIGHT     "      (c) 2015      "
 #define L_AUTHOR        "  by J.A. Woltjer   "
 
 #define L_POS           "Set width:          "
@@ -53,6 +54,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define L_CAL_ADJUST    "+ / - : to adjust   "
 #define L_CAL_ENTER     "Both  : to accept   "
+
+#define L_CAL_ON        "                  on"
+#define L_CAL_OFF       "                 off"
 
 #define L_CAL_POS       "Width calibration   "
 #define L_CAL_POS_AD    "Adjust to        cm "
@@ -106,8 +110,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define L_BLANK         "                    "
 
 #define L_MEIJWORKS     "     MeijWorks      "
-#define L_DEVICE        " Pootm.best.  v 1.00"
-#define L_COPYRIGHT     "      (c) 2014      "
+#define L_DEVICE        "Ploegbesturing v1.03"
+#define L_COPYRIGHT     "      (c) 2015      "
 #define L_AUTHOR        "  by J.A. Woltjer   "
 
 #define L_POS           "Ploegbreedte:       "
@@ -123,6 +127,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define L_CAL_ADJUST    "+ / - : verstellen  "
 #define L_CAL_ENTER     "Beide : accepteren  "
+
+#define L_CAL_ON        "                 aan"
+#define L_CAL_OFF       "                 uit"
 
 #define L_CAL_POS       "Breedte calibratie  "
 #define L_CAL_POS_AD    "Verstel naar     cm "
@@ -154,6 +161,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define L_CAL_QUAL      "Corrigeer RTK ident."
 #define L_CAL_QUAL_AD   "Quality:            "
 
+#define L_CAL_DEUTZ     "Inverteer hefsignaal"
+#define L_CAL_DEUTZ_AD  "Inversie:           "
+
 #define L_CAL_SPEED     "Snelheids calibratie"
 #define L_CAL_SPEED_AD  "Accelereer tot 10kmh"
 
@@ -176,8 +186,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define L_BLANK         "                    "
 
 #define L_MEIJWORKS     "     MeijWorks      "
-#define L_DEVICE        "  Plovstyring v0.74 "
-#define L_COPYRIGHT     "      (c) 2013      "
+#define L_DEVICE        "  Plovstyring v1.03 "
+#define L_COPYRIGHT     "      (c) 2015      "
 #define L_AUTHOR        "    J.A. Woltjer    "
 
 #define L_WIDTH         "Arbejdsbredde:      "
@@ -188,7 +198,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define L_CAL_ACCEPT    "+ : acceptere       "
 #define L_CAL_DECLINE   "- : annullere       "
 
-#define L_CAL_DONE      "fÃ¦rdig              "
+#define L_CAL_DONE      "færdig              "
 #define L_CAL_DECLINED  "annulleret          "
 
 #define L_CAL_ADJUST    "+ / - : justere     "
@@ -197,13 +207,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define L_CAL_WIDTH     "Bredde kalibrering  "
 #define L_CAL_WIDTH_AD  "Justere til       cm"
 
-#define L_CAL_SHARES    "Ã¦ndre antal plovjern"
+#define L_CAL_SHARES    "ændre antal plovjern"
 #define L_CAL_SHARES_AD "Antal plovjern :    "
 
-#define L_CAL_MARGIN    "Ã¦ndre fejlmargen    "
+#define L_CAL_MARGIN    "ændre fejlmargen    "
 #define L_CAL_MARGIN_AD "Fejlmargen :      cm"
 
-#define L_CAL_MAXCOR    "Ã¦ndre correction    "
+#define L_CAL_MAXCOR    "ændre correction    "
 #define L_CAL_MAXCOR_AD "Max cor:          cm"
 
 #define L_CAL_SIDE      "Corrigeer ploegzijde"
@@ -221,8 +231,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define L_CAL_GPS_M1    "Kontrollere kabler  "
 #define L_CAL_GPS_M2    "og nmea output      "
 
-#define L_CAL_COMPLETE  "Kalibrering fÃ¦rdig  "
-#define L_CAL_DDONE     "fÃ¦rdig              "
+#define L_CAL_COMPLETE  "Kalibrering færdig  "
+#define L_CAL_DDONE     "færdig              "
 #define L_CAL_NOSAVE    "Data IKKE er gemt   "
 #define L_CAL_SAVE      "Data gemt           "
 
